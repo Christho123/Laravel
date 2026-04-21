@@ -213,11 +213,51 @@ Nota:
 - Los movimientos de stock se crean automaticamente al registrar compras y ventas.
 - Esta tabla es solo de lectura desde la API.
 
+## Inventory > Stats
+Usa `range=daily|week|month|3_months|6_months|1_year` en los endpoints que lo aceptan.
+
+### Ingreso de stock
+`GET /inventory/stats/stock-inflow?range=week`
+
+### Compras
+`GET /inventory/stats/purchases?range=month`
+
+### Ventas
+`GET /inventory/stats/sales?range=month`
+
+### Movimientos de stock
+`GET /inventory/stats/stock-movements?range=month`
+
+### Alertas de stock bajo
+`GET /inventory/stats/low-stock-alerts?threshold=15`
+
+Respuesta ejemplo:
+```json
+{
+  "message": "Estadisticas de compras obtenidas correctamente.",
+  "data": {
+    "range": "month",
+    "period": {
+      "start": "2026-03-22",
+      "end": "2026-04-20"
+    },
+    "summary": {
+      "total_purchases": 18
+    },
+    "series": [
+      {
+        "date": "2026-03-22",
+        "count": 2
+      }
+    ]
+  }
+}
+```
 ## Flujo recomendado en Postman
 1. Ejecuta `register` o `login`.
 2. Copia el `access_token` que devuelve `login`.
 3. En las rutas protegidas, agrega el header `Authorization: Bearer TU_ACCESS_TOKEN`.
-4. El `access_token` no expira por tiempo; solo deja de servir cuando el usuario hace `POST /auth/logout` o se revoca la sesi�n.
+4. El `access_token` no expira por tiempo; solo deja de servir cuando el usuario hace `POST /auth/logout` o se revoca la sesiÃ³n.
 5. Para cerrar sesion, usa `POST /auth/logout` con ambos tokens.
 
 ## Nota

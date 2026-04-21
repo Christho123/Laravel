@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Inventory\InventoryStatsController;
 use App\Http\Controllers\Inventory\PurchaseController;
 use App\Http\Controllers\Inventory\SaleController;
 use App\Http\Controllers\Inventory\StockMovementController;
@@ -25,6 +26,14 @@ Route::prefix('products')->middleware('jwt.auth')->group(function () {
 });
 
 Route::prefix('inventory')->middleware('jwt.auth')->group(function () {
+    Route::prefix('stats')->group(function () {
+        Route::get('stock-inflow', [InventoryStatsController::class, 'stockInflow']);
+        Route::get('purchases', [InventoryStatsController::class, 'purchases']);
+        Route::get('sales', [InventoryStatsController::class, 'sales']);
+        Route::get('stock-movements', [InventoryStatsController::class, 'stockMovements']);
+        Route::get('low-stock-alerts', [InventoryStatsController::class, 'lowStockAlerts']);
+    });
+
     Route::apiResource('purchases', PurchaseController::class)->only(['index', 'store', 'show']);
     Route::apiResource('sales', SaleController::class)->only(['index', 'store', 'show']);
     Route::get('stock-movements', [StockMovementController::class, 'index']);
