@@ -17,9 +17,10 @@ class CategoryRepository
             $query->where('name', 'like', '%'.$search.'%');
         }
 
-        $perPage = (int) ($filters['per_page'] ?? 10);
+        $pageSize = (int) ($filters['page_size'] ?? 10);
+        $page = (int) ($filters['page'] ?? 1);
 
-        return $query->paginate($perPage)->withQueryString();
+        return $query->paginate($pageSize, ['*'], 'page', $page)->withQueryString();
     }
 
     public function create(array $data): Category

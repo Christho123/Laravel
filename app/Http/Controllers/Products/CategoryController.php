@@ -26,7 +26,7 @@ class CategoryController extends Controller
             'meta' => [
                 'current_page' => $result->currentPage(),
                 'last_page' => $result->lastPage(),
-                'per_page' => $result->perPage(),
+                'page_size' => $result->perPage(),
                 'total' => $result->total(),
                 'from' => $result->firstItem(),
                 'to' => $result->lastItem(),

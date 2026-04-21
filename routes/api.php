@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Products\BrandController;
 use App\Http\Controllers\Products\CategoryController;
+use App\Http\Controllers\Products\SupplierController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function () {
@@ -13,4 +15,6 @@ Route::prefix('auth')->group(function () {
 
 Route::prefix('products')->middleware('jwt.auth')->group(function () {
     Route::apiResource('categories', CategoryController::class);
+    Route::apiResource('brands', BrandController::class);
+    Route::apiResource('suppliers', SupplierController::class);
 });

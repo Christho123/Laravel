@@ -99,10 +99,11 @@ Body JSON:
 Todas estas rutas requieren `Authorization: Bearer TU_ACCESS_TOKEN`.
 
 ### Listar categorias
-`GET /products/categories?per_page=10&search=ropa`
+`GET /products/categories?page=1&page_size=10&search=ropa`
 
 Query params:
-- `per_page`: `10`, `20` o `50`
+- `page`: número de página, por ejemplo `1`, `2`, `3`
+- `page_size`: `10`, `20` o `50`
 - `search`: busca por nombre
 
 Respuesta exitosa:
@@ -113,7 +114,7 @@ Respuesta exitosa:
   "meta": {
     "current_page": 1,
     "last_page": 1,
-    "per_page": 10,
+    "page_size": 10,
     "total": 0,
     "from": null,
     "to": null
@@ -148,6 +149,78 @@ Body JSON:
 
 ### Eliminar categoria
 `DELETE /products/categories/{id}`
+
+## Products > Brands
+Todas las rutas usan `Authorization: Bearer TU_ACCESS_TOKEN`.
+
+### Listar marcas
+`GET /products/brands?page=1&page_size=10&search=nike`
+
+### Crear marca
+`POST /products/brands`
+
+Body JSON:
+```json
+{
+  "name": "Nike",
+  "description": "Marca deportiva"
+}
+```
+
+### Ver una marca
+`GET /products/brands/{id}`
+
+### Actualizar marca
+`PUT /products/brands/{id}`
+
+Body JSON:
+```json
+{
+  "name": "Nike",
+  "description": "Marca deportiva oficial"
+}
+```
+
+### Eliminar marca
+`DELETE /products/brands/{id}`
+
+## Products > Suppliers
+Todas las rutas usan `Authorization: Bearer TU_ACCESS_TOKEN`.
+
+### Listar proveedores
+`GET /products/suppliers?page=1&page_size=10&search=proveedor`
+
+### Crear proveedor
+`POST /products/suppliers`
+
+Body JSON:
+```json
+{
+  "name": "Proveedor Central",
+  "email": "proveedor@example.com",
+  "phone": "999999999",
+  "address": "Av. Principal 123"
+}
+```
+
+### Ver un proveedor
+`GET /products/suppliers/{id}`
+
+### Actualizar proveedor
+`PUT /products/suppliers/{id}`
+
+Body JSON:
+```json
+{
+  "name": "Proveedor Central",
+  "email": "proveedor@example.com",
+  "phone": "999999998",
+  "address": "Av. Principal 456"
+}
+```
+
+### Eliminar proveedor
+`DELETE /products/suppliers/{id}`
 
 ## Flujo recomendado en Postman
 1. Ejecuta `register` o `login`.

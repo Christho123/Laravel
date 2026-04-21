@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Products\Category;
+namespace App\Http\Requests\Products\Supplier;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoryIndexRequest extends FormRequest
+class SupplierIndexRequest extends FormRequest
 {
     public function authorize(): bool
     {
