@@ -12,7 +12,7 @@ class JwtService
     {
         $now = now();
 
-        $accessClaims = $this->buildClaims($user, $sessionId, 'access', $now, config('jwt.access_ttl_minutes'));
+        $accessClaims = $this->buildClaims($user, $sessionId, 'access', $now);
         $refreshClaims = $this->buildClaims($user, $sessionId, 'refresh', $now, config('jwt.refresh_ttl_days'), true);
 
         return [
@@ -31,7 +31,7 @@ class JwtService
             throw new \RuntimeException('JWT type mismatch.');
         }
 
-        if (($claims['exp'] ?? 0) < now()->timestamp) {
+        if (array_key_exists('exp', $claims) && (int) $claims['exp'] < now()->timestamp) {
             throw new \RuntimeException('JWT expired.');
         }
 
@@ -53,13 +53,15 @@ class JwtService
         return is_array($claims) ? $claims : [];
     }
 
-    private function buildClaims(User $user, string $sessionId, string $type, Carbon $now, int $ttl, bool $days = false): array
-    {
-        $exp = $days
-            ? $now->copy()->addDays($ttl)
-            : $now->copy()->addMinutes($ttl);
-
-        return [
+    private function buildClaims(
+        User $user,
+        string $sessionId,
+        string $type,
+        Carbon $now,
+        int $ttl = 0,
+        bool $days = false,
+    ): array {
+        $claims = [
             'iss' => config('jwt.issuer'),
             'sub' => $user->getKey(),
             'sid' => $sessionId,
@@ -68,8 +70,17 @@ class JwtService
             'email' => $user->email,
             'name' => $user->name,
             'iat' => $now->timestamp,
-            'exp' => $exp->timestamp,
         ];
+
+        if ($ttl > 0) {
+            $exp = $days
+                ? $now->copy()->addDays($ttl)
+                : $now->copy()->addMinutes($ttl);
+
+            $claims['exp'] = $exp->timestamp;
+        }
+
+        return $claims;
     }
 
     private function encode(array $claims): string

@@ -24,7 +24,9 @@ class AuthSessionRepository
             'refresh_jti' => $refreshClaims['jti'],
             'access_token_hash' => hash('sha256', $accessToken),
             'refresh_token_hash' => hash('sha256', $refreshToken),
-            'access_expires_at' => Carbon::createFromTimestamp($accessClaims['exp']),
+            'access_expires_at' => array_key_exists('exp', $accessClaims)
+                ? Carbon::createFromTimestamp($accessClaims['exp'])
+                : null,
             'refresh_expires_at' => Carbon::createFromTimestamp($refreshClaims['exp']),
         ]);
     }
@@ -41,7 +43,9 @@ class AuthSessionRepository
             'refresh_jti' => $refreshClaims['jti'],
             'access_token_hash' => hash('sha256', $accessToken),
             'refresh_token_hash' => hash('sha256', $refreshToken),
-            'access_expires_at' => Carbon::createFromTimestamp($accessClaims['exp']),
+            'access_expires_at' => array_key_exists('exp', $accessClaims)
+                ? Carbon::createFromTimestamp($accessClaims['exp'])
+                : null,
             'refresh_expires_at' => Carbon::createFromTimestamp($refreshClaims['exp']),
             'revoked_at' => null,
         ])->save();
@@ -83,7 +87,9 @@ class AuthSessionRepository
             'session_id' => $session->getKey(),
             'jti' => $accessClaims['jti'],
             'token_hash' => hash('sha256', $accessToken),
-            'expires_at' => Carbon::createFromTimestamp($accessClaims['exp']),
+            'expires_at' => array_key_exists('exp', $accessClaims)
+                ? Carbon::createFromTimestamp($accessClaims['exp'])
+                : null,
             'revoked_at' => now(),
         ]);
     }

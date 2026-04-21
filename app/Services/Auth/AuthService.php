@@ -84,7 +84,6 @@ class AuthService
         return [
             'token_type' => 'Bearer',
             'access_token' => $pair['access_token'],
-            'access_expires_at' => $pair['access_claims']['exp'],
             'refresh_token' => $pair['refresh_token'],
             'refresh_expires_at' => $pair['refresh_claims']['exp'],
         ];
@@ -138,9 +137,7 @@ class AuthService
         return [
             'token_type' => 'Bearer',
             'access_token' => $pair['access_token'],
-            'access_expires_at' => $pair['access_claims']['exp'],
             'refresh_token' => $pair['refresh_token'],
-            'refresh_expires_at' => $pair['refresh_claims']['exp'],
         ];
     }
 

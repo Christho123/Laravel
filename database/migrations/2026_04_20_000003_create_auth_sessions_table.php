@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('refresh_jti')->unique();
             $table->string('access_token_hash', 64);
             $table->string('refresh_token_hash', 64);
-            $table->timestamp('access_expires_at');
+            $table->timestamp('access_expires_at')->nullable();
             $table->timestamp('refresh_expires_at');
             $table->timestamp('revoked_at')->nullable();
             $table->timestamps();
