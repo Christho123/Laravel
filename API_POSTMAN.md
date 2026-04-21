@@ -1,4 +1,4 @@
-# API Documentation
+﻿# API Documentation
 
 ## Base URL
 `http://127.0.0.1:8000/api`
@@ -10,7 +10,7 @@ Accept: application/json
 Content-Type: application/json
 ```
 
-Para las rutas protegidas agrega además:
+Para las rutas protegidas agrega ademas:
 ```http
 Authorization: Bearer TU_ACCESS_TOKEN
 ```
@@ -30,20 +30,6 @@ Body JSON:
 }
 ```
 
-Respuesta exitosa:
-```json
-{
-  "message": "Usuario registrado correctamente.",
-  "data": {
-    "id": 1,
-    "name": "Juan Perez",
-    "email": "juan@example.com",
-    "created_at": "2026-04-20T10:15:00.000000Z",
-    "updated_at": "2026-04-20T10:15:00.000000Z"
-  }
-}
-```
-
 ### Login
 `POST /auth/login`
 
@@ -55,83 +41,12 @@ Body JSON:
 }
 ```
 
-Respuesta exitosa:
-```json
-{
-  "message": "Inicio de sesión exitoso.",
-  "data": {
-    "id": 1,
-    "name": "Juan Perez",
-    "email": "juan@example.com",
-    "token_type": "Bearer",
-    "access_token": "TU_ACCESS_TOKEN",
-    "refresh_token": "TU_REFRESH_TOKEN"
-  }
-}
-```
-
-### Refresh
-`POST /auth/refresh`
-
-Body JSON:
-```json
-{
-  "refresh_token": "TU_REFRESH_TOKEN"
-}
-```
-
-### Logout
-`POST /auth/logout`
-
-Headers:
-```http
-Authorization: Bearer TU_ACCESS_TOKEN
-```
-
-Body JSON:
-```json
-{
-  "refresh_token": "TU_REFRESH_TOKEN"
-}
-```
-
 ## Products > Categories
-Todas estas rutas requieren `Authorization: Bearer TU_ACCESS_TOKEN`.
-
 ### Listar categorias
 `GET /products/categories?page=1&page_size=10&search=ropa`
 
-Query params:
-- `page`: número de página, por ejemplo `1`, `2`, `3`
-- `page_size`: `10`, `20` o `50`
-- `search`: busca por nombre
-
-Respuesta exitosa:
-```json
-{
-  "message": "Listado de categorias obtenido correctamente.",
-  "data": [],
-  "meta": {
-    "current_page": 1,
-    "last_page": 1,
-    "page_size": 10,
-    "total": 0,
-    "from": null,
-    "to": null
-  }
-}
-```
-
 ### Crear categoria
 `POST /products/categories`
-
-Body JSON:
-```json
-{
-  "name": "Tecnologia",
-  "description": "Productos electronicos"
-}
-```
 
 ### Ver una categoria
 `GET /products/categories/{id}`
@@ -139,33 +54,15 @@ Body JSON:
 ### Actualizar categoria
 `PUT /products/categories/{id}`
 
-Body JSON:
-```json
-{
-  "name": "Tecnologia",
-  "description": "Productos electronicos y accesorios"
-}
-```
-
 ### Eliminar categoria
 `DELETE /products/categories/{id}`
 
 ## Products > Brands
-Todas las rutas usan `Authorization: Bearer TU_ACCESS_TOKEN`.
-
 ### Listar marcas
 `GET /products/brands?page=1&page_size=10&search=nike`
 
 ### Crear marca
 `POST /products/brands`
-
-Body JSON:
-```json
-{
-  "name": "Nike",
-  "description": "Marca deportiva"
-}
-```
 
 ### Ver una marca
 `GET /products/brands/{id}`
@@ -173,35 +70,15 @@ Body JSON:
 ### Actualizar marca
 `PUT /products/brands/{id}`
 
-Body JSON:
-```json
-{
-  "name": "Nike",
-  "description": "Marca deportiva oficial"
-}
-```
-
 ### Eliminar marca
 `DELETE /products/brands/{id}`
 
 ## Products > Suppliers
-Todas las rutas usan `Authorization: Bearer TU_ACCESS_TOKEN`.
-
 ### Listar proveedores
 `GET /products/suppliers?page=1&page_size=10&search=proveedor`
 
 ### Crear proveedor
 `POST /products/suppliers`
-
-Body JSON:
-```json
-{
-  "name": "Proveedor Central",
-  "email": "proveedor@example.com",
-  "phone": "999999999",
-  "address": "Av. Principal 123"
-}
-```
 
 ### Ver un proveedor
 `GET /products/suppliers/{id}`
@@ -209,27 +86,141 @@ Body JSON:
 ### Actualizar proveedor
 `PUT /products/suppliers/{id}`
 
-Body JSON:
+### Eliminar proveedor
+`DELETE /products/suppliers/{id}`
+
+## Products > Products
+### Listar productos
+`GET /products/products?page=1&page_size=10&search=camisa`
+
+Respuesta exitosa:
 ```json
 {
-  "name": "Proveedor Central",
-  "email": "proveedor@example.com",
-  "phone": "999999998",
-  "address": "Av. Principal 456"
+  "message": "Listado de productos obtenido correctamente.",
+  "data": [
+    {
+      "id": 1,
+      "name": "Camisa Classic",
+      "description": "Camisa de algodon",
+      "brand_id": 1,
+      "category_id": 2,
+      "price_purchase": "20.00",
+      "price_sale": "30.68",
+      "stock": 25,
+      "created_at": "2026-04-20T10:15:00.000000Z",
+      "updated_at": "2026-04-20T10:15:00.000000Z",
+      "brand": {
+        "id": 1,
+        "name": "Nike"
+      },
+      "category": {
+        "id": 2,
+        "name": "Ropa"
+      }
+    }
+  ],
+  "meta": {
+    "current_page": 1,
+    "last_page": 1,
+    "page_size": 10,
+    "total": 1,
+    "from": 1,
+    "to": 1
+  }
 }
 ```
 
-### Eliminar proveedor
-`DELETE /products/suppliers/{id}`
+### Crear producto
+`POST /products/products`
+
+Body JSON:
+```json
+{
+  "name": "Camisa Classic",
+  "description": "Camisa de algodon",
+  "brand_id": 1,
+  "category_id": 2,
+  "price_purchase": 20,
+  "price_sale": 30.68,
+  "stock": 0
+}
+```
+
+### Ver un producto
+`GET /products/products/{id}`
+
+### Actualizar producto
+`PUT /products/products/{id}`
+
+### Eliminar producto
+`DELETE /products/products/{id}`
+
+## Inventory > Purchases
+### Listar compras
+`GET /inventory/purchases?page=1&page_size=10&search=proveedor`
+
+### Registrar compra
+`POST /inventory/purchases`
+
+Body JSON:
+```json
+{
+  "supplier_id": 1,
+  "date": "2026-04-20",
+  "items": [
+    {
+      "product_id": 1,
+      "quantity": 10,
+      "unit_price": 20
+    }
+  ]
+}
+```
+
+### Ver compra
+`GET /inventory/purchases/{id}`
+
+## Inventory > Sales
+### Listar ventas
+`GET /inventory/sales?page=1&page_size=10&search=boleta`
+
+### Registrar venta
+`POST /inventory/sales`
+
+Body JSON:
+```json
+{
+  "date": "2026-04-20",
+  "tipo_comprobante": "boleta",
+  "items": [
+    {
+      "product_id": 1,
+      "quantity": 2,
+      "unit_price": 30.68
+    }
+  ]
+}
+```
+
+### Ver venta
+`GET /inventory/sales/{id}`
+
+## Inventory > Stock Movements
+### Listar movimientos de stock
+`GET /inventory/stock-movements?page=1&page_size=10&search=entrada`
+
+Nota:
+- Los movimientos de stock se crean automaticamente al registrar compras y ventas.
+- Esta tabla es solo de lectura desde la API.
 
 ## Flujo recomendado en Postman
 1. Ejecuta `register` o `login`.
 2. Copia el `access_token` que devuelve `login`.
 3. En las rutas protegidas, agrega el header `Authorization: Bearer TU_ACCESS_TOKEN`.
 4. Si el access expira, usa `POST /auth/refresh` con el `refresh_token`.
-5. Para cerrar sesión, usa `POST /auth/logout` con ambos tokens.
+5. Para cerrar sesion, usa `POST /auth/logout` con ambos tokens.
 
 ## Nota
-- `register` solo devuelve datos del usuario creado.
-- `login` es el único endpoint que devuelve tokens.
-- La API responde en JSON aunque falle la validación.
+- `products` ya no usa `supplier_id`.
+- Las compras y ventas no exponen CRUD completo para preservar el historial de stock.
+- La API responde en JSON aunque falle la validacion.
